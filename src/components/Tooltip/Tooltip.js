@@ -1,13 +1,13 @@
 import React from 'react'
 
 const Tooltip = ({ feature }) => {
-    const { id } = feature.properties
+    const { ID, LABEL } = feature.properties
 
     return (
-        <div id={`tooltip-${id}`}>
-            <strong>Source Layer:</strong> {feature.layer['source-layer']}
+        <div id={`tooltip-${ID}`}>
+            <strong>BDRC ID:</strong> {ID}
             <br />
-            <strong>Layer ID:</strong> {feature.layer.id}
+            <strong>Printery Name:</strong> {LABEL}
         </div>
     )
 }

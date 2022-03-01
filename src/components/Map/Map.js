@@ -5,7 +5,7 @@ import Tooltip from '../Tooltip/Tooltip'
 import ReactDOM from 'react-dom'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
-console.log(process.env)
+
 const Map = () => {
     const mapContainerRef = useRef(null)
     const tooltipRef = useRef(new mapboxgl.Popup({ offset: 15 }))
@@ -33,20 +33,25 @@ const Map = () => {
 
         // add tooltip when users mouse move over a point
         map.on('mousemove', (e) => {
-            const features = map.queryRenderedFeatures(e.point)
-            if (features.length) {
-                const feature = features[0]
+            const features = map.queryRenderedFeatures(e.point, {
+                layers: ['nlm-printers'] // replace with your layer name
+            })
 
-                // Create tooltip node
-                const tooltipNode = document.createElement('div')
-                ReactDOM.render(<Tooltip feature={feature} />, tooltipNode)
-
-                // Set tooltip on map
-                tooltipRef.current
-                    .setLngLat(e.lngLat)
-                    .setDOMContent(tooltipNode)
-                    .addTo(map)
+            if (!features.length) {
+                return
             }
+
+            const feature = features[0]
+
+            // Create tooltip node
+            const tooltipNode = document.createElement('div')
+            ReactDOM.render(<Tooltip feature={feature} />, tooltipNode)
+
+            // Set tooltip on map
+            tooltipRef.current
+                .setLngLat(e.lngLat)
+                .setDOMContent(tooltipNode)
+                .addTo(map)
         })
 
         // Clean up on unmount
