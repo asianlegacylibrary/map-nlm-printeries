@@ -37,6 +37,8 @@ const Map = () => {
                 layers: ['nlm-printers'] // replace with your layer name
             })
 
+            console.log(features)
+
             if (!features.length) {
                 return
             }
